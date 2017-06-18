@@ -4,12 +4,13 @@ require('./lib/contentserver')
 const choo = require('choo')
 const app = choo()
 
-app.use(require('./models/error'))
 app.use(require('choo-asyncify'))
+app.use(require('./models/error'))
 app.use(require('choo-log')())
 
 app.use(require('./models/renderer'))
 
+app.use(require('./models/about'))
 app.use(require('./models/collection'))
 app.use(require('./models/datasources'))
 app.use(require('./models/defaultsources'))
