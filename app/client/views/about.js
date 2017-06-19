@@ -2,19 +2,23 @@ const html = require('choo/html')
 const css = require('csjs-inject')
 const C = require('../lib/constants')
 
+const open = require('opn')
+
 const overlay = require('./overlay')
 const pkgjson = require('../../package.json')
+const icon = require('./icon')
 
 const style = css`
 
 .content {
-  widthL 100%;
+  width: 100%;
   box-sizing: border-box;
   padding: 20px;
   font-size: 1.6em;
   font-family: CooperHewitt-Book;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .content p {
@@ -24,7 +28,7 @@ const style = css`
 
 .content a {
   text-decoration: none;
-  color: ${C.MIDBLUE}}
+  color: ${C.GREYBLUE}}
 }
 
 .content a:hover {
@@ -47,7 +51,33 @@ const style = css`
   align-self: center;
 }
 
+.cards {
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  margin: 10px;
+  font-size: 0.8em;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
 `
+
+const geticon = name => icon({
+  name: name,
+  backgroundColor: C.DARKBLUE,
+  width: 80,
+  height: 80
+})
 
 module.exports = (state, emit) => {
   if (!state.aboutshown) return null
@@ -61,17 +91,49 @@ module.exports = (state, emit) => {
 
   `
 
+  const code = html`
+
+  <div class="${style.card} clickable">
+    ${geticon('code')}
+    code
+  </div>
+
+  `
+  code.onclick = () => open('https://github.com/codeforscience/sciencefair')
+
+  const website = html`
+
+  <div class="${style.card} clickable">
+    ${geticon('home')}
+    website
+  </div>
+
+  `
+  website.onclick = () => open('https://codeforscience.com/sciencefair')
+
+  const chat = html`
+
+  <div class="${style.card} clickable">
+    ${geticon('chat')}
+    chat
+  </div>
+
+  `
+  chat.onclick = () => open('https://webchat.freenode.net/?channels=sciencefair')
+
+  const codeforscience = html`<span class="clickable">Code For Science and Society</span>`
+  codeforscience.onclick = () => open('https://codeforscience.org/')
+
   const about = html`
 
   <div class="${style.content}">
-    <a href="https://codeforscience.org/sciencefair">codeforscience.org/sciencefair</a>
+    <div class="${style.cards}">
+      ${code}
+      ${website}
+      ${chat}
+    </div>
 
-    <p>
-      <a href="https://github.com/codeforscience/sciencefair/blob/master/LICENSE">MIT licensed</a> |
-      <a href="https://github.com/codeforscience/sciencefair">GitHub</a>
-    </p>
-
-    <p class="${style.community}">Developed by the <a href="https://codeforscience.org/">Code For Science and Society</a> community</p>
+    <p class="${style.community}">Made with ♥ by the ${codeforscience} community</p>
   </div>
 
   `

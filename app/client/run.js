@@ -2,7 +2,7 @@ require('./lib/setup')
 require('./lib/contentserver')
 
 const choo = require('choo')
-const app = choo()
+const app = choo({ href: false })
 
 app.use(require('choo-asyncify'))
 app.use(require('./models/error'))
